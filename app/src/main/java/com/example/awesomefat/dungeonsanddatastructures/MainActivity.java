@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
     private Button southButton;
     private Button westButton;
     private Button eastButton;
+    public Button addExitButton;
 
     private Player p;
     private Dungeon csDept;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity
         this.southButton = (Button)this.findViewById(R.id.southButton);
         this.eastButton = (Button)this.findViewById(R.id.eastButton);
         this.westButton = (Button)this.findViewById(R.id.westButton);
+        this.addExitButton = (Button)this.findViewById(R.id.addExitButton);
+
 
         p = new Player("Mike");
         this.buildDungeon();
@@ -145,18 +148,41 @@ public class MainActivity extends AppCompatActivity
         if(r.getExits().containsKey("north"))
         {
             this.northButton.setVisibility(View.VISIBLE);
+            Core.rooms.addExit("North", this.currentRoom);
         }
         if(r.getExits().containsKey("south"))
         {
             this.southButton.setVisibility(View.VISIBLE);
+            Core.rooms.addExit("South", this.currentRoom);
         }
         if(r.getExits().containsKey("east"))
         {
             this.eastButton.setVisibility(View.VISIBLE);
+            Core.rooms.addExit("East", this.currentRoom);
         }
         if(r.getExits().containsKey("west"))
         {
             this.westButton.setVisibility(View.VISIBLE);
+            Core.rooms.addExit("West", this.currentRoom);
         }
+    }
+
+    private void onAddExitButtonClicked(View v)
+    {
+
+        final Context context = this;
+
+
+        AppCompatActivity Exit = new AppCompatActivity();
+
+        addExitButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(context, Exit.class);
+                startActivity(intent);
+            }
+        });
     }
 }
