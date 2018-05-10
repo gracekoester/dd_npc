@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity
     private Button southButton;
     private Button westButton;
     private Button eastButton;
-    public Button addExitButton;
 
     private Player p;
     private Dungeon csDept;
@@ -44,8 +43,6 @@ public class MainActivity extends AppCompatActivity
         this.southButton = (Button)this.findViewById(R.id.southButton);
         this.eastButton = (Button)this.findViewById(R.id.eastButton);
         this.westButton = (Button)this.findViewById(R.id.westButton);
-        this.addExitButton = (Button)this.findViewById(R.id.addExitButton);
-
 
         p = new Player("Mike");
         this.buildDungeon();
@@ -68,17 +65,13 @@ public class MainActivity extends AppCompatActivity
         this.csDept = new Dungeon("CS Department", csHallway);
         this.csDept.addRoom(s120);
         Core.theDungeon = this.csDept;
-
         //Linking rooms through exits
         Exit s120_csHallway = new Exit(0,1);
-
         //Exit s120_csHallway = new Exit(s120, csHallway);
         s120.addExit("north", s120_csHallway);
         csHallway.addExit("south", s120_csHallway);
-
         NPC monster = new NPC("Locklair");
         s120.addNPC(monster);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference dungeonRef = database.getReference("dungeons");
         DatabaseReference tempDungeon = dungeonRef.push();
@@ -97,6 +90,7 @@ public class MainActivity extends AppCompatActivity
                 Core.theDungeon = mainActivityInstancePointer.csDept;
                 mainActivityInstancePointer.csDept.addPlayer(p);
                 mainActivityInstancePointer.fillInterface(p.getCurrentRoom());
+                Core.theDungeon.startNPCThreads();
             }
 
             @Override
@@ -148,41 +142,18 @@ public class MainActivity extends AppCompatActivity
         if(r.getExits().containsKey("north"))
         {
             this.northButton.setVisibility(View.VISIBLE);
-            Core.rooms.addExit("North", this.currentRoom);
         }
         if(r.getExits().containsKey("south"))
         {
             this.southButton.setVisibility(View.VISIBLE);
-            Core.rooms.addExit("South", this.currentRoom);
         }
         if(r.getExits().containsKey("east"))
         {
             this.eastButton.setVisibility(View.VISIBLE);
-            Core.rooms.addExit("East", this.currentRoom);
         }
         if(r.getExits().containsKey("west"))
         {
             this.westButton.setVisibility(View.VISIBLE);
-            Core.rooms.addExit("West", this.currentRoom);
         }
-    }
-
-    private void onAddExitButtonClicked(View v)
-    {
-
-        final Context context = this;
-
-
-        AppCompatActivity Exit = new AppCompatActivity();
-
-        addExitButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                Intent intent = new Intent(context, Exit.class);
-                startActivity(intent);
-            }
-        });
     }
 }

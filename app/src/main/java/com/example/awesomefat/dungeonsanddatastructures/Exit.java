@@ -37,4 +37,46 @@ public class Exit
         }
         return false;
     }
+
+    public boolean takeExit(Player p)
+    {
+        //make the player move to the room they are NOT currently in.
+        Room r1 = Core.theDungeon.rooms.get(this.r1_index);
+        Room r2 = Core.theDungeon.rooms.get(this.r2_index);
+
+        if(p.getCurrentRoom() == r1)
+        {
+            r1.removePlayer(p);
+            r2.addPlayer(p);
+            return true;
+        }
+        else if(p.getCurrentRoom() == r2)
+        {
+            r2.removePlayer(p);
+            r1.addPlayer(p);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean takeExitNPC(NPC n)
+    {
+        //make the player move to the room they are NOT currently in.
+        Room r1 = Core.theDungeon.rooms.get(this.r1_index);
+        Room r2 = Core.theDungeon.rooms.get(this.r2_index);
+
+        if(p.getCurrentRoom() == r1)
+        {
+            r1.removeNPC(p);
+            r2.addNPC(p);
+            return true;
+        }
+        else if(p.getCurrentRoom() == r2)
+        {
+            r2.remoeNPC(p);
+            r1.addPNPC(p);
+            return true;
+        }
+        return false;
+    }
 }
